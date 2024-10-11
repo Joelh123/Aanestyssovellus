@@ -117,3 +117,27 @@ body {
     -ms-transfrom: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.votes-text {
+    margin-top: 2%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    font-size: 125%;
+}
+
+.upper-container {
+    display: flex;
+}
+
+.log-out-button {
+    margin-top: 8%;
+}
+
+.vote-button {
+    font-size: 80%;
+}

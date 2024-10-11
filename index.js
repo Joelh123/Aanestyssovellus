@@ -1,6 +1,19 @@
 const users = []
 let regex =  /^[a-öA-Ö]+$/
 
+const votes = [
+    {
+        voteName: "Liikennesäännöt",
+        voteDescription: "Poistakaa liikennesäännöt",
+        votesAmount: 0
+    },
+    {
+        voteName: "Viemärit",
+        voteDescription: "Lisää viemäreitä kaduille",
+        votesAmount: 0
+    }
+]
+
 function register() {
 
     document.getElementById("success-message-register").innerHTML = ""
@@ -70,3 +83,23 @@ function logIn() {
 
     document.getElementById("error-message-log-in").innerHTML = "Käyttäjää ei löydy"
 }
+
+function displayVotes() {
+    document.getElementById("votes-list").innerHTML = ""
+
+    for (let vote of votes) {
+        document.getElementById("votes-list").innerHTML += `<li>${vote["voteDescription"]}<br> Ääniä: ${vote["votesAmount"]} <button class="vote-button" onclick='vote("${vote["voteName"]}")'>Äänestä</button></li><br>`
+    }
+}
+
+function vote(voteName) {
+    for (let vote of votes) {
+        if (vote["voteName"] == voteName) {
+            vote["votesAmount"] += 1
+        }
+    }
+
+    displayVotes()
+}
+
+displayVotes()
