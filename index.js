@@ -21,6 +21,18 @@ function register() {
     let username = document.getElementById("register-account-name").value
     let password = document.getElementById("register-password").value
 
+
+    if (username == "ADMIN" && password == "ADMIN123") {
+        localStorage.setItem(username, password)
+        localStorage.setItem(`${username}-is-admin`, "true")
+    }
+
+    else if (localStorage.getItem(username) == null) {
+        localStorage.setItem(username, password)
+        localStorage.setItem(`${username}-is-admin`, "false")
+    }
+     
+
     // check if username has characters other than the alphabet
     if (! regex.test(username)) {
         document.getElementById("error-message-register").innerHTML = "Tunnuksessa tulee olla vain kirjaimia"
@@ -34,6 +46,10 @@ function register() {
             document.getElementById("error-message-register").innerHTML = "Käyttäjätunnus on jo käytössä"
             return;
         }
+    }
+
+    if (localStorage.getItem(username) == null) {
+        localStorage.setItem(username, password)
     }
 
     if (username == "" || password == "") {
@@ -68,15 +84,18 @@ function logIn() {
         document.getElementById("error-message-log-in").innerHTML = ""
     }
 
-    for (let user of users) {
-        if (username === user["username"] && password === user["password"]) {
+    for (const [key, value] of Object.entries(localStorage)) {
+        if (username == key && password == value) {
             if (accountType == "basic") {
                 document.location.href = `${currentAddress}basicapp.html`
                 return;
             }
-            if (accountType == "admin") {
+            if (accountType == "admin" && localStorage.getItem(`${key}-is-admin`) == "true") {
                 document.location.href = `${currentAddress}adminapp.html`
                 return;
+            } else{
+                document.getElementById("error-message-log-in").innerHTML = "Käyttäjä ei ole ylläpitäjä"
+                return
             }
         }
     }
