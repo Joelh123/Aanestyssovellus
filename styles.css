@@ -1,0 +1,119 @@
+body {
+    background-color: grey;
+}
+
+.header {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.log-in-container {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 30%;
+}
+
+.log-in-text {
+    font-size: 150%;
+}
+
+.account-type {
+    padding-top: 5%;
+}
+
+.register-container {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 30%;
+}
+
+.register-text {
+    font-size: 150%;
+}
+
+@media screen and (max-width: 527px) {
+    input[type=text] {
+        width: 125px;
+    }
+}
+
+.log-in-button {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    -ms-transfrom: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.register-button {
+    position: absolute;
+    top: 86%;
+    left: 50%;
+    -ms-transfrom: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 527px) {
+    .log-in-button {
+        top: 55%;
+    }
+}
+
+.error-message-log-in {
+    position: absolute;
+    color: red;
+    top: 52%;
+    left: 50%;
+    -ms-transfrom: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 527px) {
+    .error-message-log-in {
+        top: 61%;
+    }
+}
+
+.success-message-log-in {
+    position: absolute;
+    color: rgb(0, 190, 0);
+    top: 52%;
+    left: 50%;
+    -ms-transfrom: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 527px) {
+    .success-message-log-in {
+        top: 61%;
+    }
+}
+
+.error-message-register {
+    position: absolute;
+    color: red;
+    top: 92%;
+    left: 50%;
+    -ms-transfrom: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.success-message-register {
+    position: absolute;
+    color: rgb(0, 190, 0);
+    top: 92%;
+    left: 50%;
+    -ms-transfrom: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
