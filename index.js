@@ -1,18 +1,27 @@
 const users = []
 let regex =  /^[a-öA-Ö]+$/
 
+if (localStorage.getItem("users") == null) {
+    localStorage.setItem("users", JSON.stringify(users))
+}
 const votes = [
     {
         voteName: "Liikennesäännöt",
         voteDescription: "Poistakaa liikennesäännöt",
-        votesAmount: 0
+        votesAmount: 0,
+        voters: []
     },
     {
         voteName: "Viemärit",
         voteDescription: "Lisää viemäreitä kaduille",
-        votesAmount: 0
+        votesAmount: 0,
+        voters: []
     }
 ]
+
+if (localStorage.getItem("votes") == null) {
+    localStorage.setItem("votes", JSON.stringify(votes))
+}
 
 function register() {
 
@@ -20,18 +29,6 @@ function register() {
 
     let username = document.getElementById("register-account-name").value
     let password = document.getElementById("register-password").value
-
-
-    if (username == "ADMIN" && password == "ADMIN123") {
-        localStorage.setItem(username, password)
-        localStorage.setItem(`${username}-is-admin`, "true")
-    }
-
-    else if (localStorage.getItem(username) == null) {
-        localStorage.setItem(username, password)
-        localStorage.setItem(`${username}-is-admin`, "false")
-    }
-     
 
     // check if username has characters other than the alphabet
     if (! regex.test(username)) {
@@ -41,28 +38,42 @@ function register() {
         document.getElementById("error-message-register").innerHTML = ""
     }
 
-    for (let user of users) {
+    // check if username in use
+    for (let user of JSON.parse(localStorage.getItem("users"))) {
         if (username === user["username"]) {
             document.getElementById("error-message-register").innerHTML = "Käyttäjätunnus on jo käytössä"
             return;
         }
     }
 
-    if (localStorage.getItem(username) == null) {
-        localStorage.setItem(username, password)
+    // check for admin account
+    if (username == "ADMIN" && password == "ADMIN123") {
+        let localStorageUsers = JSON.parse(localStorage.getItem("users"))
+        localStorageUsers.push({
+            username: username,
+            password: password,
+            isAdmin: true
+        })
+        localStorage.setItem("users", JSON.stringify(localStorageUsers))
     }
 
+    else {
+        let localStorageUsers = JSON.parse(localStorage.getItem("users"))
+        localStorageUsers.push({
+            username: username,
+            password: password,
+            isAdmin: false
+        })
+        localStorage.setItem("users", JSON.stringify(localStorageUsers))
+    }
+
+    // check for empty inputs
     if (username == "" || password == "") {
         document.getElementById("error-message-register").innerHTML = "Kaikki kentät tulee täyttää"
         return;
     } else {
         document.getElementById("error-message-register").innerHTML = ""
     }
-
-    users.push({
-        username: username,
-        password: password
-    })
 
     document.getElementById("success-message-register").innerHTML = "Rekisteröidyit onnistuneesti"
 
@@ -77,6 +88,7 @@ function logIn() {
 
     let accountType = document.querySelector('input[name="account-type"]:checked').value;
 
+    // check for empty inputs
     if (username == "" || password == "") {
         document.getElementById("error-message-log-in").innerHTML = "Kaikki kentät tulee täyttää"
         return;
@@ -84,13 +96,16 @@ function logIn() {
         document.getElementById("error-message-log-in").innerHTML = ""
     }
 
-    for (const [key, value] of Object.entries(localStorage)) {
-        if (username == key && password == value) {
+    // log into account
+    for (let user of JSON.parse(localStorage.getItem("users"))) {
+        if (username == user["username"] && password == user["password"]) {
             if (accountType == "basic") {
+                localStorage.setItem("currentUser", username)
                 document.location.href = `${currentAddress}basicapp.html`
                 return;
             }
-            if (accountType == "admin" && localStorage.getItem(`${key}-is-admin`) == "true") {
+            if (accountType == "admin" && user["isAdmin"]) {
+                localStorage.setItem("currentUser", username)
                 document.location.href = `${currentAddress}adminapp.html`
                 return;
             } else{
@@ -106,17 +121,25 @@ function logIn() {
 function displayVotes() {
     document.getElementById("votes-list").innerHTML = ""
 
-    for (let vote of votes) {
+    // iterate through votes
+    for (let vote of JSON.parse(localStorage.getItem("votes"))) {
         document.getElementById("votes-list").innerHTML += `<li>${vote["voteDescription"]}<br> Ääniä: ${vote["votesAmount"]} <button class="vote-button" onclick='vote("${vote["voteName"]}")'>Äänestä</button></li><br>`
     }
 }
 
 function vote(voteName) {
-    for (let vote of votes) {
-        if (vote["voteName"] == voteName) {
+
+    let localStorageVotes = JSON.parse(localStorage.getItem("votes"))
+
+    // iterate through votes
+    for (let vote of localStorageVotes) {
+        if (vote["voteName"] == voteName && ! vote["voters"].includes(localStorage.getItem("currentUser"))) {
             vote["votesAmount"] += 1
+            vote["voters"].push(localStorage.getItem("currentUser"))
         }
     }
+
+    localStorage.setItem("votes", JSON.stringify(localStorageVotes))
 
     displayVotes()
 }
