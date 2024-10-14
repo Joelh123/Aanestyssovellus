@@ -8,4 +8,4 @@ Kirjautumisessa valinta kirjauta tavallisella käyttäjällä ja ylläpitäjä k
 Toiminta sivu
 
 Jos kirjaudutaan tavallisella käyttäjällä, annetaan lista muiden äänestyksistä, joita voidaan selata. Näitä äänestyksiä voi myös äänestää kerran per käyttäjä.
-Kirjautuessa ylläpitäjän käyttäjällä on mahdollisuus lisätä äänestyksiä listaan tai poistaa äänestyksiä listasta. Ylläpitäjällä ei ole kuitenkaan mahdollista äänestää mitään äänestyksistä.
+Kirjautuessa ylläpitäjän käyttäjällä on mahdollisuus lisätä äänestyksiä listaan tai poistaa äänestyksiä listasta. Ylläpitäjällä ei ole kuitenkaan mahdollista äänestää mitään äänestyksistä ylläpitäjä-tilassa.
