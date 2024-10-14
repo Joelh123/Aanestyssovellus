@@ -141,3 +141,53 @@ li {
 .vote-button {
     font-size: 80%;
 }
+
+.add-vote-container {
+    position: absolute;
+    top: 20%;
+    left: 60%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 50%;
+}
+
+@media screen and (max-width: 1100px) {
+    .add-vote-container {
+        top: 27%;
+        left: 70%;
+        width: 20%;
+    }
+}
+
+.add-vote-text {
+    padding-top: 7%;
+    padding-bottom: 3%;
+}
+
+textarea {
+    width: 220px;
+    height: 75px;
+}
+
+.add-vote-error-message {
+    color: red;
+    position: absolute;
+    top: 35%;
+    left: 60%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 1100px) {
+    .add-vote-error-message {
+        top: 44%;
+        left: 68%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .add-vote-error-message {
+        top: 48%;
+        left: 68%;
+    }
+}

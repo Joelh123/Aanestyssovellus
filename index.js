@@ -4,20 +4,7 @@ let regex =  /^[a-öA-Ö]+$/
 if (localStorage.getItem("users") == null) {
     localStorage.setItem("users", JSON.stringify(users))
 }
-const votes = [
-    {
-        voteName: "Liikennesäännöt",
-        voteDescription: "Poistakaa liikennesäännöt",
-        votesAmount: 0,
-        voters: []
-    },
-    {
-        voteName: "Viemärit",
-        voteDescription: "Lisää viemäreitä kaduille",
-        votesAmount: 0,
-        voters: []
-    }
-]
+const votes = []
 
 if (localStorage.getItem("votes") == null) {
     localStorage.setItem("votes", JSON.stringify(votes))
@@ -127,6 +114,15 @@ function displayVotes() {
     }
 }
 
+function displayVotesAdmin() {
+    document.getElementById("votes-list-admin").innerHTML = ""
+
+    // iterate through votes
+    for (let vote of JSON.parse(localStorage.getItem("votes"))) {
+        document.getElementById("votes-list-admin").innerHTML += `<li>${vote["voteDescription"]}<br> Ääniä: ${vote["votesAmount"]} <button class="vote-button" onclick='deleteVote("${vote["voteName"]}")'>Poista äänestys</button></li><br>`
+    }
+}
+
 function vote(voteName) {
 
     let localStorageVotes = JSON.parse(localStorage.getItem("votes"))
@@ -144,4 +140,61 @@ function vote(voteName) {
     displayVotes()
 }
 
-displayVotes()
+function addVote() {
+
+    let givenVoteName = document.getElementById("vote-name").value
+    let givenVoteDescription = document.getElementById("vote-description").value
+
+    // check for empty inputs
+    if (givenVoteName == "" || givenVoteDescription == "") {
+        document.getElementById("add-vote-error-message").innerHTML = "Kaikki kentät tulee täyttää"
+        return;
+    } else {
+        document.getElementById("add-vote-error-message").innerHTML = ""
+    }
+
+    // check if vote name has characters other than the alphabet
+    if (! regex.test(givenVoteName)) {
+        document.getElementById("add-vote-error-message").innerHTML = "Tunnuksessa tulee olla vain kirjaimia"
+        return;
+    } else {
+        document.getElementById("add-vote-error-message").innerHTML = ""
+    }
+
+    let localStorageVotes = JSON.parse(localStorage.getItem("votes"))
+
+    localStorageVotes.push({
+        voteName: givenVoteName,
+        voteDescription: givenVoteDescription,
+        votesAmount: 0,
+        voters: []
+    })
+
+    localStorage.setItem("votes", JSON.stringify(localStorageVotes))
+
+    displayVotesAdmin()
+
+}
+
+function deleteVote(voteName) {
+
+    let localStorageVotes = JSON.parse(localStorage.getItem("votes"))
+
+    // iterate through votes
+    for (let vote of localStorageVotes) {
+        if (vote["voteName"] == voteName) {
+            localStorageVotes.splice(localStorageVotes.indexOf(vote), 1)
+        }
+    }
+
+    localStorage.setItem("votes", JSON.stringify(localStorageVotes))
+
+    displayVotesAdmin()
+
+}
+if (document.location.href.slice(-13) == "adminapp.html") {
+    displayVotesAdmin()
+}
+if (document.location.href.slice(-13) == "basicapp.html") {
+    displayVotes()
+}
