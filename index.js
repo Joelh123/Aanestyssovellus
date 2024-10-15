@@ -170,6 +170,13 @@ function addVote() {
 
     let localStorageVotes = JSON.parse(localStorage.getItem("votes"))
 
+    for (let vote of localStorageVotes) {
+        if (givenVoteName == vote["voteName"]) {
+            document.getElementById("add-vote-error-message").innerHTML = "Äänestys on jo lisätty"
+            return
+        }
+    }
+        
     localStorageVotes.push({
         voteName: givenVoteName,
         voteDescription: givenVoteDescription,
