@@ -68,7 +68,14 @@ function register() {
 
 function logIn() {
 
-    let currentAddress = document.location.href.substring(0, (document.location.href.length - 10))
+    let currentAddress = null
+
+    if (document.location.href == `${document.location.href.substring(0, (document.location.href.length - 10))}index.html`) {
+        currentAddress = document.location.href.substring(0, (document.location.href.length - 10))
+    } else {
+        currentAddress = document.location.href
+    }
+
 
     let username = document.getElementById("log-in-account-name").value
     let password = document.getElementById("log-in-password").value
